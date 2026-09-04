@@ -2,6 +2,10 @@ import { supabasePublic } from "@/lib/supabase";
 import UnlockClient from "./UnlockClient";
 import { notFound } from "next/navigation";
 
+// Selalu ambil data terbaru dari Supabase, jangan pakai cache Next.js
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 // 1 request server-side per kunjungan halaman (bukan per detik), hemat invocation
 export default async function UnlockPage({
   params,
