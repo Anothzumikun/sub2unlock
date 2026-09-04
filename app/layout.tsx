@@ -1,4 +1,5 @@
 import "./globals.css";
+import { ReactNode } from "react";
 
 export const metadata = {
   title: "Unlock Link",
@@ -8,7 +9,7 @@ export const metadata = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <html lang="id">
