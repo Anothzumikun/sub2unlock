@@ -28,6 +28,26 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [gifUrl, setGifUrl] = useState("");
+  const [gifSaving, setGifSaving] = useState(false);
+
+  async function loadSettings() {
+    const res = await fetch("/api/settings");
+    const json = await res.json();
+    setGifUrl(json.data?.site_gif_url || "");
+  }
+
+  async function handleSaveGif(e: FormEvent) {
+    e.preventDefault();
+    setGifSaving(true);
+    await fetch("/api/settings", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ site_gif_url: gifUrl }),
+    });
+    setGifSaving(false);
+    alert("GIF berhasil disimpan!");
+  }
 
   async function loadLinks() {
     setLoading(true);
@@ -43,6 +63,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     loadLinks();
+    loadSettings();
   }, []);
 
   async function handleSubmit(e: FormEvent) {
@@ -104,6 +125,37 @@ export default function Dashboard() {
   return (
     <main className="min-h-screen px-4 py-8 max-w-2xl mx-auto space-y-8">
       <h1 className="text-2xl font-bold text-accent">Admin Dashboard</h1>
+
+      <form
+        onSubmit={handleSaveGif}
+        className="bg-card rounded-2xl p-5 space-y-3 border border-neutral-800"
+      >
+        <h2 className="font-semibold">GIF Beranda</h2>
+        <p className="text-xs text-neutral-500">
+          Muncul di halaman utama dan halaman unlock. Ambil link GIF dari
+          Giphy/Tenor (klik kanan → copy image address).
+        </p>
+        <input
+          placeholder="https://media.giphy.com/media/.../giphy.gif"
+          value={gifUrl}
+          onChange={(e) => setGifUrl(e.target.value)}
+          className="w-full px-3 py-2 rounded-lg bg-neutral-900 border border-neutral-700 outline-none focus:border-accent text-sm"
+        />
+        {gifUrl && (
+          <img
+            src={gifUrl}
+            alt="Preview"
+            className="max-h-32 rounded-lg object-cover"
+          />
+        )}
+        <button
+          type="submit"
+          disabled={gifSaving}
+          className="w-full py-2 rounded-lg bg-accent text-black font-semibold text-sm disabled:opacity-50"
+        >
+          {gifSaving ? "Menyimpan..." : "Simpan GIF"}
+        </button>
+      </form>
 
       <form
         onSubmit={handleSubmit}
