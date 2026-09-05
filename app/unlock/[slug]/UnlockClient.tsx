@@ -87,7 +87,13 @@ function getPlatformStyle(name: string): PlatformStyle {
   };
 }
 
-export default function UnlockClient({ link }: { link: LinkData }) {
+export default function UnlockClient({
+  link,
+  gifUrl,
+}: {
+  link: LinkData;
+  gifUrl: string | null;
+}) {
   const [step, setStep] = useState<"start" | "waiting" | "unlocked">("start");
   const [countdown, setCountdown] = useState(link.delay_seconds || 15);
   const platform = getPlatformStyle(link.platform_name);
@@ -132,6 +138,13 @@ export default function UnlockClient({ link }: { link: LinkData }) {
         <div className="relative overflow-hidden rounded-3xl bg-ink px-6 py-8">
           <div className="absolute -right-10 top-6 w-40 h-40 rounded-full bg-accent/20 blur-3xl" />
           <div className="relative">
+            {gifUrl && (
+              <img
+                src={gifUrl}
+                alt=""
+                className="w-full rounded-2xl mb-4 max-h-40 object-cover"
+              />
+            )}
             <span className="inline-block text-xs font-medium text-accent bg-accent/10 border border-accent/30 rounded-full px-3 py-1 mb-4">
               Link siap dibuka
             </span>
@@ -337,4 +350,4 @@ function StepCard({
       </div>
     </div>
   );
-          }
+}
