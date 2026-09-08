@@ -133,7 +133,7 @@ export default function UnlockClient({
         </span>
       </header>
 
-      {/* Hero */}
+      {/* Hero + CTA (digabung jadi 1 card) */}
       <section className="px-5 pt-6">
         <div className="relative overflow-hidden rounded-3xl bg-ink px-6 py-8">
           <div className="absolute -right-10 top-6 w-40 h-40 rounded-full bg-accent/20 blur-3xl" />
@@ -180,10 +180,74 @@ export default function UnlockClient({
               </svg>
             </div>
           </div>
+
+          {/* Status + Action (nyambung langsung di card yang sama) */}
+          <div className="relative mt-8 text-center">
+            {step === "start" && (
+              <>
+                <p className="text-accent text-sm mb-4">
+                  Selesaikan langkah di atas untuk membuka link
+                </p>
+                <button
+                  onClick={handleSubscribe}
+                  className={`w-full flex items-center justify-between gap-3 rounded-2xl px-5 py-4 text-white font-semibold active:scale-[0.98] transition ${platform.bg}`}
+                >
+                  <span className="flex items-center gap-3">
+                    {platform.icon}
+                    Subscribe {link.platform_name}
+                  </span>
+                  <span>→</span>
+                </button>
+              </>
+            )}
+
+            {step === "waiting" && (
+              <>
+                <p className="text-white/60 text-sm mb-4">
+                  Terima kasih! Link terbuka dalam beberapa detik.
+                </p>
+                <div className="text-4xl font-extrabold text-accent mb-4">
+                  {countdown}s
+                </div>
+                <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-accent transition-all duration-1000"
+                    style={{ width: `${progressPct}%` }}
+                  />
+                </div>
+              </>
+            )}
+
+            {step === "unlocked" && (
+              <>
+                <p className="text-white font-bold text-lg mb-1">
+                  Link berhasil terbuka 🎉
+                </p>
+                <p className="text-white/60 text-sm mb-4">
+                  Terima kasih sudah subscribe.
+                </p>
+                <a
+                  href={link.target_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full rounded-2xl px-5 py-4 bg-accent text-black font-semibold active:scale-[0.98] transition"
+                >
+                  Buka link sekarang
+                </a>
+              </>
+            )}
+          </div>
         </div>
       </section>
 
-      {/* How it works */}
+      {/* Trust bar */}
+      <section className="px-5 pt-8">
+        <div className="rounded-full bg-accent/10 border border-accent/20 px-4 py-3 text-center text-xs text-emerald-800">
+          Aman &amp; cepat · tanpa password · sekali klik
+        </div>
+      </section>
+
+      {/* How it works (dipindah ke bawah) */}
       <section className="px-5 py-10">
         <div className="text-center mb-6">
           <h2 className="text-xl font-bold text-ink">Cara kerjanya</h2>
@@ -228,78 +292,6 @@ export default function UnlockClient({
             }
             active={step === "unlocked"}
           />
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="px-5 pb-8">
-        <div className="rounded-3xl bg-ink px-6 py-7 text-center">
-          {step === "start" && (
-            <>
-              <h3 className="text-white font-bold text-lg mb-1">
-                Ayo mulai
-              </h3>
-              <p className="text-accent text-sm mb-5">
-                Selesaikan langkah di atas untuk membuka link
-              </p>
-              <button
-                onClick={handleSubscribe}
-                className={`w-full flex items-center justify-between gap-3 rounded-2xl px-5 py-4 text-white font-semibold active:scale-[0.98] transition ${platform.bg}`}
-              >
-                <span className="flex items-center gap-3">
-                  {platform.icon}
-                  Subscribe {link.platform_name}
-                </span>
-                <span>→</span>
-              </button>
-            </>
-          )}
-
-          {step === "waiting" && (
-            <>
-              <h3 className="text-white font-bold text-lg mb-1">
-                Hampir selesai
-              </h3>
-              <p className="text-white/60 text-sm mb-5">
-                Terima kasih! Link terbuka dalam beberapa detik.
-              </p>
-              <div className="text-4xl font-extrabold text-accent mb-4">
-                {countdown}s
-              </div>
-              <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-accent transition-all duration-1000"
-                  style={{ width: `${progressPct}%` }}
-                />
-              </div>
-            </>
-          )}
-
-          {step === "unlocked" && (
-            <>
-              <h3 className="text-white font-bold text-lg mb-1">
-                Link berhasil terbuka 🎉
-              </h3>
-              <p className="text-white/60 text-sm mb-5">
-                Terima kasih sudah subscribe.
-              </p>
-              <a
-                href={link.target_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full rounded-2xl px-5 py-4 bg-accent text-black font-semibold active:scale-[0.98] transition"
-              >
-                Buka link sekarang
-              </a>
-            </>
-          )}
-        </div>
-      </section>
-
-      {/* Trust bar */}
-      <section className="px-5 pb-10">
-        <div className="rounded-full bg-accent/10 border border-accent/20 px-4 py-3 text-center text-xs text-emerald-800">
-          Aman &amp; cepat · tanpa password · sekali klik
         </div>
       </section>
 
