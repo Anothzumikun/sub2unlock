@@ -114,6 +114,7 @@ export default function UnlockClient({
   }
 
   const progressPct = 100 - (countdown / (link.delay_seconds || 15)) * 100;
+  const isGifVideo = gifUrl?.toLowerCase().endsWith(".mp4");
 
   return (
     <main className="min-h-screen bg-paper text-ink">
@@ -138,7 +139,17 @@ export default function UnlockClient({
         <div className="relative overflow-hidden rounded-3xl bg-ink px-6 py-8">
           <div className="absolute -right-10 top-6 w-40 h-40 rounded-full bg-accent/20 blur-3xl" />
           <div className="relative">
-            {gifUrl && (
+            {gifUrl && isGifVideo && (
+              <video
+                src={gifUrl}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full rounded-2xl mb-4 max-h-40 object-cover"
+              />
+            )}
+            {gifUrl && !isGifVideo && (
               <img
                 src={gifUrl}
                 alt=""
