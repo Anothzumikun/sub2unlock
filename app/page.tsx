@@ -11,11 +11,22 @@ export default async function Home() {
     .single();
 
   const gifUrl = data?.site_gif_url as string | null;
+  const isVideo = gifUrl?.toLowerCase().endsWith(".mp4");
 
   return (
     <main className="min-h-screen flex items-center justify-center px-6">
       <div className="text-center space-y-4 max-w-sm">
-        {gifUrl && (
+        {gifUrl && isVideo && (
+          <video
+            src={gifUrl}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="mx-auto rounded-2xl max-h-56 w-full object-cover"
+          />
+        )}
+        {gifUrl && !isVideo && (
           <img
             src={gifUrl}
             alt=""
