@@ -141,12 +141,23 @@ export default function Dashboard() {
           onChange={(e) => setGifUrl(e.target.value)}
           className="w-full px-3 py-2 rounded-lg bg-neutral-900 border border-neutral-700 outline-none focus:border-accent text-sm"
         />
-        {gifUrl && (
-          <img
+        {gifUrl && gifUrl.toLowerCase().endsWith(".mp4") ? (
+          <video
             src={gifUrl}
-            alt="Preview"
+            autoPlay
+            loop
+            muted
+            playsInline
             className="max-h-32 rounded-lg object-cover"
           />
+        ) : (
+          gifUrl && (
+            <img
+              src={gifUrl}
+              alt="Preview"
+              className="max-h-32 rounded-lg object-cover"
+            />
+          )
         )}
         <button
           type="submit"
